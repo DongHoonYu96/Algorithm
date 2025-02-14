@@ -76,8 +76,8 @@ void setMap(){
 
 // DFS로 최대 점수를 찾는 함수
 // depth : 트리의 depth, 주사위의 index
-int go(int depth){ 
-   if(depth == n) return 0;   // 모든 주사위를 다 던졌으면 종료
+int go(int depth, int sum){ 
+   if(depth == n) return sum;   // 모든 주사위를 다 던졌으면 종료
    
    int ret = 0;  // 현재 상태에서의 최대 점수
    for(int i = 0; i < 4; i++){    // 4개의 말에 대해 시도
@@ -86,7 +86,7 @@ int go(int depth){
       if(isMal(nxt,i)) continue; // 도착할위치에 다른말이 있는경우
 
       mal[i] = nxt; //말 이동
-      ret = max(ret, go(depth+1) + v[nxt]);
+      ret = max(ret, go(depth+1, sum+v[nxt]));
       mal[i] = tmp_idx; //원복
    } 
    return ret;  // 최대 점수 반환
@@ -98,6 +98,6 @@ int main(){
    
    setMap();   // 게임판 초기화
    for(int i = 0; i < n; i++) cin >> a[i];   // 주사위 값 입력
-   cout << go(0) << "\n";   // 최대 점수 계산 및 출력
+   cout << go(0,0) << "\n";   // 최대 점수 계산 및 출력
    return 0;
 }
