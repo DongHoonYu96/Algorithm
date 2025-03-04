@@ -1,149 +1,90 @@
 #include<bits/stdc++.h>
-using namespace std; 
-
-int n,m,t,ret, a[54][54], vis[54][54];
-int x,d,k, found;
-vector<int> v[54];
-const int dy[] = {-1, 0, 1, 0};  // 상, 우, 하, 좌 (y 방향)
+using namespace std;
+#define y fuck
+int n, m, T, x, d, k, a[54][54], ret, visited[54][54], y;
+const int dy[] = {-1, 0, 1, 0};
 const int dx[] = {0, 1, 0, -1};
 
-void calc() {
-   for(int i=0;i<n;++i) {
-      for(int j=0;j<m;++j) {
-         ret+=v[i][j];
-      }
-   }
+bool flag = 1;
+void _rotate(int y, int dir, int k){
+    vector<int> v;
+    for(int i = 0; i < m; i++)v.push_back(a[y][i]);
+    if(dir == 1)  rotate(v.begin(), v.begin() + k, v.end());
+    else  rotate(v.begin(), v.begin() + m - k, v.end());
+    for(int i = 0; i < m; i++) a[y][i] = v[i];
+    return;
 }
-void print() {
-   for(int i=0;i<n;++i) {
-      for(int j=0;j<m;++j) {
-         cout<<v[i][j]<<" ";
-      }cout<<"\n";
-   }
+void dfs(int y, int x){ 
+	for(int i = 0; i < 4; i++){
+		int ny = y + dy[i]; 
+		int nx = (x + dx[i] + m) % m; 
+		if(ny < 0 || ny >= n) continue; 
+		if(visited[ny][nx]) continue;
+		if(a[y][x] == a[ny][nx]){
+			visited[y][x] = visited[ny][nx] = 1; 
+			flag = 0;
+			dfs(ny,nx); 
+		}
+	}
 }
-// idx먼째 벡터를 회전시키는 함수
-void go(int idx) {
-   if (d == 1) {
-      rotate(v[idx].begin(), v[idx].begin() + k, v[idx].end());
-   } else {
-      rotate(v[idx].begin(), v[idx].begin() + v[idx].size() - k, v[idx].end());
-   }
-   // print();
-   
+bool findAdj(){ 
+	flag = 1;
+    memset(visited, 0, sizeof(visited));
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            if(a[i][j] == 0) continue;
+			if(visited[i][j]) continue;
+			dfs(i, j);  
+        }
+    }
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            if(visited[i][j]) a[i][j] = 0;
+        }
+    }
+    return flag;
 }
-
-void calcAvg() {
-   int sum=0, cnt=0;
-   for(int i=0;i<n;++i) {
-      for(int j=0;j<m;++j) {
-         sum += v[i][j];
-         if(v[i][j] != 0) cnt++;
-      }
-   }
-   if (cnt == 0) return; // 모든 수가 0인 경우 처리
-   for(int i=0;i<n;++i) {
-      for(int j=0;j<m;++j) {
-         if(v[i][j] == 0) continue;
-         if(v[i][j] * cnt > sum) {
-            v[i][j]--;
-         } else if(v[i][j] * cnt < sum) {
-            v[i][j]++;
-         }
-      }
-   }
+void setAverage(){
+    int sum = 0;
+    int cnt = 0;
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            if(a[i][j] == 0) continue;
+            sum += a[i][j];
+            cnt++;
+        }
+    }
+	double av = (double)sum / (double)cnt;  
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            if(a[i][j] == 0) continue;
+            if((double)a[i][j] > av) a[i][j]--;
+            else if((double)a[i][j] < av)a[i][j]++;
+        }
+    }
+    return;
 }
-
-// void calcAvg() {
-//    //평균계산
-//    int sum=0; int cnt=0;
-//    for(int i=0;i<n;++i) {
-//       for(int j=0;j<m;++j) {
-//          sum+=v[i][j];
-//          if(v[i][j]!=0) cnt++;
-//       }
-//    }
-//    double avg = (double)sum/(double)cnt;
-//
-//    // 더하기
-//    for(int i=0;i<n;++i) {
-//       for(int j=0;j<m;++j) {
-//          if(v[i][j]==0) continue;
-//          if((double)v[i][j]>avg) {
-//             v[i][j]--;
-//          }
-//          if((double)v[i][j] < avg) {
-//             v[i][j]++;
-//          }
-//       }
-//    }
-// }
-
-void dfs(int y, int x) {
-   for(int i=0;i<4;++i) {
-      int ny=y+dy[i];
-      int nx=(x+dx[i]+m)%m; // ???
-
-      if(ny<0 || ny>=n) continue;
-      if(vis[ny][nx]) continue;
-
-      if(v[y][x]==v[ny][nx]) {
-         vis[y][x]=vis[ny][nx]=1;
-         found=1;
-         dfs(ny,nx);
-      }
-   }
-}
-
-void findAdj() {
-   found=0;
-   memset(vis,0,sizeof(vis));
-
-   for(int i=0;i<n;++i) {
-      for(int j=0;j<m;++j) {
-         if(v[i][j]==0) continue;
-         if(vis[i][j]) continue;
-         dfs(i,j);
-      }
-   }
-
-   for(int i=0;i<n;++i) {
-      for(int j=0;j<m;++j) {
-         if(vis[i][j]) {
-            v[i][j]=0;
-         }
-      }
-   }
-}
-
 int main(){
-   ios_base::sync_with_stdio(0);
-   cin.tie(0); cout.tie(0);
-
-   cin>>n>>m>>t;
-   for(int i=0;i<n;++i) {
-      for(int j=0;j<m;++j) {
-         int tmp;
-         cin>>tmp;
-         v[i].push_back(tmp);
-      }
-   }
-
-   for(int i=0;i<t;++i) {
-      cin>>x>>d>>k;
-      for(int j=0;j<n;++j) {
-         if((j+1)%x==0) {
-            // cout<<"rotate "<<j<<"\n";
-            go(j);
-         }
-      }
-      findAdj();
-      // searchUpDown();
-      // searchLeftRight();
-      if(!found) {
-         calcAvg();
-      }
-   }
-   calc();
-   // print();
-   cout<<ret;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+    cin >> n >> m >> T;
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            cin >> a[i][j];
+        }
+    }
+    for(int i = 0; i < T; i++){
+        cin >> x >> d >> k; 
+        for(int j = x - 1; j < n; j += x){ 
+            _rotate(j, d, k);
+        } 
+        if(findAdj())setAverage();  
+    }
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            ret += a[i][j]; 
+        } 
+    }
+    cout <<ret << "\n";
+    return 0;
 }
