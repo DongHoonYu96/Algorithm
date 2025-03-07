@@ -42,7 +42,7 @@ int main(){
       max_lecture = max(max_lecture, a[i]);
    }
 
-   int st = 0;  // 최소 크기는 가장 큰 강의 길이
+   int st = 1;  // 최소 크기는 가장 큰 강의 길이
    int en = sum;          // 최대 크기는 모든 강의 길이의 합
    int ret = 0;
    
