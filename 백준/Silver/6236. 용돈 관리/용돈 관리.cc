@@ -12,7 +12,6 @@ int go(int x) { // 인출할돈이 X 일때, 가능한지
       }
    }
    
-
    int cnt=1; //인출한 횟수
    int remain=x; // 남은돈
    for(int i=0;i<n;++i) {
@@ -24,8 +23,19 @@ int go(int x) { // 인출할돈이 X 일때, 가능한지
       }
       remain -= a[i];
    }
-   // 마지막 돈도 쓸수있는지 봐야함
    return cnt <= m ;
+}
+
+int go2(int x) {
+   int cnt=1, temp=x;
+   for(int i=0;i<n;++i) {
+      if(x-a[i]<0) {
+         x=temp;
+         cnt++;
+      }
+      x-=a[i];
+   }
+   return cnt<=m;
 }
 
 int main(){
@@ -37,12 +47,12 @@ int main(){
       cin>>a[i];
    }
 
-   int st=0;
+   int st=*max_element(a, a+n);
    int en=100000*10000; // 주의!
    while(st<=en) {
       int mid = (st+en)/2;
       // cout<<st<<" "<<mid<<" " <<en<<" \n";
-      if(go(mid)) {
+      if(go2(mid)) {
          en=mid-1;
          ret=mid;
       }
