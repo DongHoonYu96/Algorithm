@@ -4,7 +4,8 @@ using namespace std;
 typedef long long ll;
 
 int n;
-double a[10000+4];
+double a[10000+4]; //원본
+double dp[10000+4]; // 
 double ret;
 
 int main(){
@@ -14,18 +15,20 @@ int main(){
    cin>>n;
    for(int i=0;i<n;++i) {
       cin>>a[i];
-      ret = max(ret, a[i]); // 단일 요소도 체크
    }
 
-   for(int i=0;i<n;++i) {
-      double sum=a[i];
-      for(int j=i+1;j<n;++j) {
-         sum *= a[j];
-         ret=max(ret,sum);
+   dp[0]=a[0];
+   ret=a[0];
+   for(int i=1;i<n;++i) {
+      double gob = dp[i-1] * a[i];
+      if(gob < a[i]) {
+         dp[i]=a[i];
       }
-      
+      else {
+         dp[i] = gob;
+      }
+      ret=max(ret,dp[i]);
    }
    cout<<fixed<<setprecision(3);
    cout<<ret;
-   
 }
