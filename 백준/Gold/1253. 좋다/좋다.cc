@@ -1,36 +1,54 @@
-// Authored by : scsc3204
-// Co-authored by : -
-// http://boj.kr/cf7ce676aad54a2786941423afd99612
-#include <bits/stdc++.h>
-using namespace std;
+#include<bits/stdc++.h>
+using namespace std; 
 
-int cnt, n;
-vector<int> a;
+typedef long long ll;
 
-void solve(int i) {
-  for(int j = 0; j < n; j++) {
-    if(j == i) continue;
-    int x = a[i] - a[j];
-    int idx = lower_bound(a.begin(), a.end(), x) - a.begin();
-    while(idx < n && a[idx] == x) {
-      if(idx != i && idx != j) { cnt++; return; }
-      idx++;
-    }
-  }
-}
+int n,ret;
+int arr[2004], vis[2004];
+map<int,int> m;
 
 int main() {
-  ios::sync_with_stdio(0);
-  cin.tie(0);
+   ios_base::sync_with_stdio(0);
+   cin.tie(0); cout.tie(0);
 
-  cin >> n;
-  for(int i = 0; i < n; i++) {
-    int x; cin >> x;
-    a.push_back(x);
-  }
+   cin>>n;
 
-  sort(a.begin(), a.end());
+   for(int i=0;i<n;++i) {
+      cin>>arr[i];
+   }
+   sort(arr,arr+n);
 
-  for(int i = 0; i < n; i++) solve(i);
-  cout << cnt;
+  
+   for(int k=0;k<n;++k) {
+      int s=0;
+      int e=n-1;
+      
+      while(s<e) {
+         int sum = arr[s]+arr[e];
+         if(sum == arr[k]) {
+            //자기자신은 안됨!
+            if(s!=k && e!=k) {
+               ret++;
+               break;
+            }
+            if(s==k) {
+               s++;
+            }
+            else if(e==k) {
+               e--;
+            }
+            
+         }
+         else if( sum > arr[k]) {
+            e--;
+         }
+         else {
+            s++;
+         }
+      }
+   }
+   
+   cout<<ret;
+
+   return 0;
 }
