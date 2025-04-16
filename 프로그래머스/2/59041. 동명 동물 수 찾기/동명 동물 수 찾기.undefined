@@ -1,0 +1,14 @@
+-- 코드를 입력하세요
+with a as (
+    SELECT name
+    from ANIMAL_INS 
+    group by name
+    having count(*)>=2
+)
+
+select name, count(*) as count
+from ANIMAL_INS
+where name in (select name from a)
+group by name
+order by name
+        
