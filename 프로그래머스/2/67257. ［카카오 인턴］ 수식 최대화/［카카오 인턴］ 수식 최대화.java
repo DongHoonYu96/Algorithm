@@ -9,7 +9,7 @@ class Solution {
     void go(char c){
         // 수정된 go 메서드
         for(int i=0; i<v2.size(); i++){
-            if(v2.get(i)==c && !vis[i]){   // vis 체크 추가
+            if(v2.get(i)==c){   // vis 체크 추가
                 vis[i]=true;
                 long a = v.get(i);
                 long b = v.get(i+1);
@@ -23,17 +23,10 @@ class Solution {
                 }
                 
                 // i+1부터 끝까지 값 한 칸씩 당기기
-                for(int j=i+1; j<v.size()-1; j++){
-                    v.set(j, v.get(j+1));
-                }
-                if(v.size() > 1) v.remove(v.size()-1);  // 마지막 요소 제거
+                v.remove(i+1);
                 
                 // i부터 끝까지 연산자 한 칸씩 당기기
-                for(int j=i; j<v2.size()-1; j++){
-                    v2.set(j, v2.get(j+1));
-                    vis[j] = vis[j+1];
-                }
-                if(v2.size() > 0) v2.remove(v2.size()-1);  // 마지막 연산자 제거
+                v2.remove(i);
                 
                 // 인덱스 조정 (연산자를 하나 처리했으므로)
                 i--;
