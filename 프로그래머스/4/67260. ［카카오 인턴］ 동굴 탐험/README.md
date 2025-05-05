@@ -1,10 +1,10 @@
 # [level 4] [카카오 인턴] 동굴 탐험 - 67260 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/67260) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/67260?language=python3) 
 
 ### 성능 요약
 
-메모리: 153 MB, 시간: 259.68 ms
+메모리: 234 MB, 시간: 398.32 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 05월 05일 19:14:41
+2025년 05월 05일 21:22:15
 
 ### 문제 설명
 
