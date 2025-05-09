@@ -1,6 +1,6 @@
 # [level 3] 표 편집 - 81303 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/81303?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/81303?language=cpp) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 05월 09일 17:51:41
+2025년 05월 09일 17:52:15
 
 ### 문제 설명
 
