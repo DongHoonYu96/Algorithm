@@ -4,7 +4,7 @@ import java.util.stream.Collectors;
 class Solution {
     public String[] solution(String[] orders, int[] course) {
         
-        var m1 = new HashMap<String, Integer>();
+        var m1 = new HashMap<String, Integer>(); // <조합, 등장횟수>
         
         for(var order : orders) {
             // 각 주문을 정렬하여 일관성 보장
@@ -26,10 +26,11 @@ class Solution {
                 
                 String combination = sb.toString();
                 
-                // course 배열에 포함된 길이만 고려
-                if(Arrays.stream(course).anyMatch(c -> c == combination.length())) {
-                    m1.put(combination, m1.getOrDefault(combination, 0) + 1);
-                }
+                m1.put(combination, m1.getOrDefault(combination, 0) + 1);
+                // course 배열에 포함된 길이만 고려 (없어도 통과하긴함)
+                // if(Arrays.stream(course).anyMatch(c -> c == combination.length())) {
+                //     m1.put(combination, m1.getOrDefault(combination, 0) + 1);
+                // }
             }
         }
         
@@ -39,18 +40,18 @@ class Solution {
         for(int courseLength : course) {
             // 해당 길이의 조합들 중 최대 빈도 찾기
             int maxCount = m1.entrySet().stream()
-                .filter(e -> e.getKey().length() == courseLength)
-                .filter(e -> e.getValue() >= 2) // 최소 2번 이상 주문된 조합만
-                .mapToInt(Map.Entry::getValue)
-                .max()
-                .orElse(0);
+            .filter(e -> e.getKey().length() == courseLength)  // "AB":3, "BC":2, "AC":3
+            .filter(e -> e.getValue() >= 2)         // "AB":3, "BC":2, "AC":3 (모두 2 이상)
+            .mapToInt(Map.Entry::getValue)          // [3, 2, 3]
+            .max()                                  // OptionalInt[3]
+            .orElse(0);                            // 3
             
             // 최대 빈도를 가진 모든 조합 추가
             if(maxCount >= 2) {
                 m1.entrySet().stream()
-                    .filter(e -> e.getKey().length() == courseLength)
-                    .filter(e -> e.getValue() == maxCount)
-                    .map(Map.Entry::getKey)
+                    .filter(e -> e.getKey().length() == courseLength) // "AB":3, "BC":2, "AC":3
+                    .filter(e -> e.getValue() == maxCount)           // "AB":3,"AC":3 (maxCount=3)
+                    .map(Map.Entry::getKey)                          // ["AB", "AC"]
                     .forEach(answer::add);
             }
         }
