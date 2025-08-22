@@ -1,10 +1,10 @@
 # [level 3] 외벽 점검 - 60062 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/60062) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/60062?language=java) 
 
 ### 성능 요약
 
-메모리: 4.16 MB, 시간: 212.50 ms
+메모리: 75.6 MB, 시간: 8289.82 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 03월 31일 15:50:40
+2025년 08월 22일 15:02:24
 
 ### 문제 설명
 
